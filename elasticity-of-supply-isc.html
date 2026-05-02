@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elasticity of Supply — ISC Class 12 Economics</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --ink:#1a1208;
+  --paper:#faf7f0;
+  --cream:#f5f0e4;
+  --amber:#c8830a;
+  --amber-light:#f0b93a;
+  --green:#2d6a4f;
+  --green-light:#52b788;
+  --red:#8b1a1a;
+  --blue:#1a3a5c;
+  --blue-light:#4a90d9;
+  --border:#d4c8a8;
+  --shadow:rgba(26,18,8,0.12);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Libre Baskerville',Georgia,serif;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+
+/* ── Hero ── */
+.hero{
+  background:var(--ink);
+  color:var(--paper);
+  padding:80px 40px 60px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,0.015) 60px,rgba(255,255,255,0.015) 61px),
+             repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,0.015) 60px,rgba(255,255,255,0.015) 61px);
+}
+
+.hero-inner{max-width:1100px;margin:0 auto;position:relative}
+
+.hero-tag{
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:4px;
+  color:var(--amber-light);
+  text-transform:uppercase;
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;
+}
+.hero-tag::before{content:'';width:32px;height:1px;background:var(--amber-light)}
+
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,6vw,76px);
+  font-weight:900;
+  line-height:1.05;
+  margin-bottom:24px;
+  letter-spacing:-2px;
+}
+
+.hero h1 em{color:var(--amber-light);font-style:normal}
+
+.hero-sub{
+  font-family:'DM Mono',monospace;
+  font-size:13px;
+  color:rgba(250,247,240,0.55);
+  letter-spacing:1px;
+  margin-bottom:48px;
+}
+
+.hero-meta{
+  display:flex;gap:32px;flex-wrap:wrap;
+}
+
+.meta-pill{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:2px;
+  padding:8px 16px;
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  letter-spacing:2px;
+  color:rgba(250,247,240,0.7);
+  text-transform:uppercase;
+}
+
+/* ── Nav ── */
+.sticky-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,247,240,0.95);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;
+}
+
+.nav-inner{
+  max-width:1100px;margin:0 auto;
+  display:flex;gap:0;overflow-x:auto;
+  scrollbar-width:none;
+}
+
+.nav-inner::-webkit-scrollbar{display:none}
+
+.nav-btn{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--ink);
+  opacity:0.5;
+  padding:16px 20px;
+  border:none;background:transparent;
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  transition:all 0.2s;
+}
+
+.nav-btn:hover,.nav-btn.active{opacity:1;border-bottom-color:var(--amber);color:var(--amber)}
+
+/* ── Layout ── */
+.container{max-width:1100px;margin:0 auto;padding:0 40px}
+
+section{padding:72px 0;border-bottom:1px solid var(--border)}
+
+.section-label{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:4px;
+  color:var(--amber);
+  text-transform:uppercase;
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,4vw,40px);
+  font-weight:700;
+  margin-bottom:24px;
+  line-height:1.2;
+}
+
+h3{
+  font-family:'Playfair Display',serif;
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:12px;
+  color:var(--blue);
+}
+
+p{margin-bottom:16px;color:#2a2010}
+
+/* ── Formula boxes ── */
+.formula-box{
+  background:var(--ink);
+  color:var(--amber-light);
+  border-radius:4px;
+  padding:24px 32px;
+  font-family:'DM Mono',monospace;
+  font-size:18px;
+  text-align:center;
+  margin:32px 0;
+  letter-spacing:1px;
+  position:relative;
+  overflow:hidden;
+}
+.formula-box::before{
+  content:'FORMULA';
+  position:absolute;top:8px;left:12px;
+  font-size:9px;letter-spacing:3px;
+  opacity:0.3;
+}
+
+/* ── 3D Canvas ── */
+.canvas-card{
+  background:var(--ink);
+  border-radius:6px;
+  overflow:hidden;
+  position:relative;
+  margin:32px 0;
+  box-shadow:0 20px 60px var(--shadow);
+}
+
+.canvas-label{
+  position:absolute;top:16px;left:16px;
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:3px;
+  color:rgba(250,247,240,0.5);
+  text-transform:uppercase;
+  z-index:2;
+}
+
+.canvas-hint{
+  position:absolute;bottom:16px;right:16px;
+  font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:2px;
+  color:rgba(250,247,240,0.3);
+  text-transform:uppercase;
+  z-index:2;
+}
+
+canvas.three-canvas{display:block;width:100%!important}
+
+/* ── Types grid ── */
+.types-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+  margin:32px 0;
+}
+
+.type-card{
+  border:1px solid var(--border);
+  border-radius:4px;
+  padding:24px;
+  background:var(--cream);
+  position:relative;
+  transition:all 0.25s;
+  cursor:pointer;
+}
+
+.type-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px var(--shadow);
+  border-color:var(--amber);
+}
+
+.type-card.active{
+  border-color:var(--amber);
+  background:#fff8e8;
+}
+
+.type-badge{
+  font-family:'DM Mono',monospace;
+  font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;
+  padding:4px 8px;
+  border-radius:2px;
+  margin-bottom:12px;
+  display:inline-block;
+}
+
+.badge-elastic{background:#d4edda;color:var(--green)}
+.badge-inelastic{background:#f8d7da;color:var(--red)}
+.badge-unit{background:#d1ecf1;color:var(--blue)}
+.badge-perfect{background:#e8e8e8;color:#444}
+
+.type-es{
+  font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:900;
+  color:var(--amber);
+  margin:8px 0;
+}
+
+.mini-canvas-wrap{height:120px;margin-top:12px;border-radius:3px;overflow:hidden;background:#0a0a0f}
+
+/* ── Interactive slider section ── */
+.slider-section{
+  background:var(--cream);
+  border-radius:6px;
+  padding:40px;
+  margin:32px 0;
+  border:1px solid var(--border);
+}
+
+.slider-row{
+  display:flex;align-items:center;gap:20px;margin-bottom:20px;
+}
+
+label{
+  font-family:'DM Mono',monospace;
+  font-size:12px;letter-spacing:1px;
+  color:var(--ink);
+  opacity:0.7;
+  min-width:200px;
+}
+
+input[type=range]{
+  flex:1;
+  -webkit-appearance:none;
+  height:3px;
+  background:var(--border);
+  border-radius:2px;
+  outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:18px;height:18px;
+  border-radius:50%;
+  background:var(--amber);
+  cursor:pointer;
+  box-shadow:0 0 0 3px rgba(200,131,10,0.2);
+}
+
+.val-display{
+  font-family:'DM Mono',monospace;
+  font-size:14px;font-weight:500;
+  color:var(--amber);
+  min-width:60px;text-align:right;
+}
+
+.result-banner{
+  margin-top:24px;
+  padding:20px 24px;
+  background:var(--ink);
+  color:var(--amber-light);
+  border-radius:4px;
+  font-family:'DM Mono',monospace;
+  font-size:14px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+
+.result-es{font-size:28px;font-weight:500}
+.result-type{opacity:0.6;font-size:11px;letter-spacing:2px}
+
+/* ── Determinants ── */
+.determinants-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  margin:32px 0;
+}
+
+.det-card{
+  padding:24px;
+  border-left:3px solid var(--amber);
+  background:var(--cream);
+  border-radius:0 4px 4px 0;
+}
+
+.det-icon{font-size:24px;margin-bottom:10px}
+.det-title{font-family:'Playfair Display',serif;font-weight:700;margin-bottom:8px;font-size:16px}
+.det-text{font-size:13px;line-height:1.7;color:#3a3020;margin:0}
+
+/* ── PYQ Section ── */
+.pyq-grid{
+  display:flex;flex-direction:column;gap:24px;margin:32px 0;
+}
+
+.pyq-card{
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+}
+
+.pyq-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;
+  background:var(--ink);
+  color:var(--paper);
+  cursor:pointer;
+  user-select:none;
+}
+
+.pyq-meta{
+  display:flex;align-items:center;gap:16px;
+}
+
+.pyq-year{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:3px;
+  color:var(--amber-light);
+}
+
+.pyq-marks{
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  background:rgba(200,131,10,0.25);
+  color:var(--amber-light);
+  padding:3px 8px;
+  border-radius:2px;
+}
+
+.pyq-q{
+  font-family:'Libre Baskerville',serif;
+  font-size:14px;
+  color:var(--paper);
+  flex:1;padding:0 16px;
+}
+
+.pyq-toggle{
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  color:var(--amber-light);
+  transition:transform 0.3s;
+}
+
+.pyq-body{
+  padding:24px;
+  background:#fff;
+  border-top:1px solid var(--border);
+  display:none;
+}
+
+.pyq-body.open{display:block}
+
+.pyq-answer{
+  font-size:14px;
+  line-height:1.9;
+  color:#2a2010;
+}
+
+.pyq-answer strong{color:var(--blue)}
+.pyq-answer em{font-style:normal;color:var(--amber);font-family:'DM Mono',monospace;font-size:13px}
+
+.answer-step{
+  display:flex;gap:16px;margin-bottom:16px;
+}
+.step-num{
+  width:28px;height:28px;
+  background:var(--amber);color:#fff;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:12px;
+  flex-shrink:0;margin-top:2px;
+}
+
+/* ── Comparison table ── */
+.compare-table{
+  width:100%;border-collapse:collapse;
+  margin:32px 0;
+  font-size:14px;
+}
+
+.compare-table th{
+  background:var(--ink);color:var(--amber-light);
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;
+  padding:14px 16px;
+  text-align:left;
+}
+
+.compare-table td{
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  color:#2a2010;
+}
+
+.compare-table tr:nth-child(even) td{background:var(--cream)}
+.compare-table tr:hover td{background:#fff8e8}
+
+/* ── Quiz ── */
+.quiz-wrap{margin:32px 0}
+
+.quiz-q{
+  font-family:'Playfair Display',serif;
+  font-size:18px;margin-bottom:20px;
+  color:var(--ink);
+}
+
+.quiz-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+
+.quiz-opt{
+  padding:14px 20px;
+  border:1px solid var(--border);
+  border-radius:3px;
+  background:var(--cream);
+  cursor:pointer;
+  font-size:14px;
+  transition:all 0.2s;
+  text-align:left;
+  font-family:'Libre Baskerville',serif;
+}
+
+.quiz-opt:hover{border-color:var(--amber);background:#fff8e8}
+.quiz-opt.correct{background:#d4edda;border-color:var(--green);color:var(--green)}
+.quiz-opt.wrong{background:#f8d7da;border-color:var(--red);color:var(--red)}
+.quiz-opt:disabled{cursor:not-allowed}
+
+.quiz-feedback{
+  padding:16px 20px;
+  border-radius:3px;
+  font-size:13px;
+  line-height:1.7;
+  display:none;
+}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:#d4edda;color:var(--green)}
+.quiz-feedback.no{background:#f8d7da;color:var(--red)}
+
+.quiz-next{
+  margin-top:16px;
+  padding:12px 28px;
+  background:var(--ink);color:var(--amber-light);
+  border:none;border-radius:3px;
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:background 0.2s;
+  display:none;
+}
+.quiz-next.show{display:inline-block}
+.quiz-next:hover{background:var(--amber)}
+
+.quiz-progress{
+  font-family:'DM Mono',monospace;
+  font-size:11px;color:var(--amber);
+  letter-spacing:2px;
+  margin-bottom:24px;
+}
+
+/* ── Footer ── */
+footer{
+  background:var(--ink);
+  color:rgba(250,247,240,0.4);
+  padding:40px;
+  text-align:center;
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+/* ── Scroll reveal ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s,transform 0.7s}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .hero{padding:60px 20px 40px}
+  .container{padding:0 20px}
+  section{padding:48px 0}
+  .slider-section{padding:24px}
+  .slider-row{flex-direction:column;align-items:flex-start}
+  input[type=range]{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- ────────────────── HERO ────────────────── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">ISC Class XII · Economics</div>
+    <h1>Elasticity of<br><em>Supply</em></h1>
+    <div class="hero-sub">// Complete chapter with 3D diagrams, solved PYQs & interactive tools</div>
+    <div class="hero-meta">
+      <div class="meta-pill">ISC Syllabus 2024–25</div>
+      <div class="meta-pill">PYQs 2015–2024</div>
+      <div class="meta-pill">Interactive 3D</div>
+      <div class="meta-pill">Self-Test Quiz</div>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────── STICKY NAV ────────────────── -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="scrollTo('definition')">Definition</button>
+    <button class="nav-btn" onclick="scrollTo('formula')">Formula</button>
+    <button class="nav-btn" onclick="scrollTo('types')">Types</button>
+    <button class="nav-btn" onclick="scrollTo('diagrams')">3D Diagrams</button>
+    <button class="nav-btn" onclick="scrollTo('determinants')">Determinants</button>
+    <button class="nav-btn" onclick="scrollTo('calculator')">Calculator</button>
+    <button class="nav-btn" onclick="scrollTo('pyqs')">PYQs</button>
+    <button class="nav-btn" onclick="scrollTo('quiz')">Self-Test</button>
+  </div>
+</nav>
+
+<!-- ────────────────── DEFINITION ────────────────── -->
+<section id="definition">
+<div class="container">
+  <div class="section-label">01 — Definition</div>
+  <h2>What is Elasticity of Supply?</h2>
+
+  <p><strong>Elasticity of Supply (Es)</strong> measures the <em>degree of responsiveness</em> of quantity supplied to a change in the price of a commodity, while keeping all other factors constant.</p>
+
+  <p>In simpler terms: if the price of wheat rises by 10%, by how much (in percentage) will farmers increase the quantity supplied? That responsiveness is captured by the elasticity of supply.</p>
+
+  <div class="formula-box">
+    Es = (% Change in Quantity Supplied) ÷ (% Change in Price)
+  </div>
+
+  <p>The elasticity of supply is always <strong>positive</strong> because price and quantity supplied move in the same direction (law of supply). When price rises, suppliers are willing to supply more; when price falls, they supply less.</p>
+
+  <div class="canvas-card reveal" style="height:340px" id="hero-canvas-wrap">
+    <div class="canvas-label">3D · Supply Curve — Drag to Rotate</div>
+    <div class="canvas-hint">scroll to zoom</div>
+  </div>
+</div>
+</section>
+
+<!-- ────────────────── FORMULA ────────────────── -->
+<section id="formula">
+<div class="container">
+  <div class="section-label">02 — Measurement</div>
+  <h2>Formula & Calculation</h2>
+
+  <h3>Proportionate (Percentage) Method</h3>
+  <p>This is the most important method for ISC examinations:</p>
+
+  <div class="formula-box" style="font-size:15px;line-height:2.2">
+    Es = (ΔQs / Qs) ÷ (ΔP / P)<br>
+    <span style="font-size:13px;opacity:0.7">= (ΔQs × P) / (ΔP × Qs)</span>
+  </div>
+
+  <p>Where: <strong>ΔQs</strong> = Change in Quantity Supplied &nbsp;|&nbsp; <strong>Qs</strong> = Original Quantity &nbsp;|&nbsp; <strong>ΔP</strong> = Change in Price &nbsp;|&nbsp; <strong>P</strong> = Original Price</p>
+
+  <h3 style="margin-top:32px">Geometric Method (from Graph)</h3>
+  <p>For a supply curve drawn on a graph, if the supply curve is a straight line:</p>
+
+  <div class="formula-box" style="font-size:14px;line-height:2.2">
+    Es = Lower segment / Upper segment<br>
+    (when measuring from the price axis)<br>
+    <span style="font-size:12px;opacity:0.6">OR: Es = Intercept on X-axis / Intercept on Y-axis</span>
+  </div>
+
+  <h3 style="margin-top:32px">Key Rules for ISC</h3>
+  <table class="compare-table reveal">
+    <thead>
+      <tr><th>Situation</th><th>Es Value</th><th>Supply Curve passes through</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Curve cuts price axis (Y-axis) above origin</td><td>Es &gt; 1</td><td>Elastic — above origin on Y-axis</td></tr>
+      <tr><td>Curve passes through origin</td><td>Es = 1</td><td>Exactly through origin</td></tr>
+      <tr><td>Curve cuts price axis below origin (or X-axis)</td><td>Es &lt; 1</td><td>Inelastic — cuts X-axis</td></tr>
+      <tr><td>Vertical line (perfectly inelastic)</td><td>Es = 0</td><td>Parallel to Y-axis</td></tr>
+      <tr><td>Horizontal line (perfectly elastic)</td><td>Es = ∞</td><td>Parallel to X-axis</td></tr>
+    </tbody>
+  </table>
+</div>
+</section>
+
+<!-- ────────────────── TYPES ────────────────── -->
+<section id="types">
+<div class="container">
+  <div class="section-label">03 — Types</div>
+  <h2>Five Types of Elasticity of Supply</h2>
+  <p>Click on any card to explore its 3D diagram below.</p>
+
+  <div class="types-grid">
+    <div class="type-card active" onclick="selectType(0,this)">
+      <div class="type-badge badge-elastic">Elastic</div>
+      <div class="type-es">Es &gt; 1</div>
+      <h3 style="font-size:16px;color:var(--green)">Relatively Elastic Supply</h3>
+      <p style="font-size:13px;margin:0">% change in Qs > % change in P. Curve cuts the price axis (Y-axis) above origin.</p>
+      <div class="mini-canvas-wrap" id="mini-0"></div>
+    </div>
+
+    <div class="type-card" onclick="selectType(1,this)">
+      <div class="type-badge badge-inelastic">Inelastic</div>
+      <div class="type-es" style="color:#8b1a1a">Es &lt; 1</div>
+      <h3 style="font-size:16px;color:var(--red)">Relatively Inelastic Supply</h3>
+      <p style="font-size:13px;margin:0">% change in Qs < % change in P. Curve cuts the X-axis to the right of origin.</p>
+      <div class="mini-canvas-wrap" id="mini-1"></div>
+    </div>
+
+    <div class="type-card" onclick="selectType(2,this)">
+      <div class="type-badge badge-unit">Unit Elastic</div>
+      <div class="type-es" style="color:#1a3a5c">Es = 1</div>
+      <h3 style="font-size:16px;color:var(--blue)">Unitary Elastic Supply</h3>
+      <p style="font-size:13px;margin:0">% change in Qs = % change in P. Any straight line through the origin gives Es = 1.</p>
+      <div class="mini-canvas-wrap" id="mini-2"></div>
+    </div>
+
+    <div class="type-card" onclick="selectType(3,this)">
+      <div class="type-badge badge-perfect">Perfectly Elastic</div>
+      <div class="type-es" style="color:#444">Es = ∞</div>
+      <h3 style="font-size:16px">Perfectly Elastic Supply</h3>
+      <p style="font-size:13px;margin:0">Suppliers supply any quantity at one price. Horizontal line parallel to X-axis.</p>
+      <div class="mini-canvas-wrap" id="mini-3"></div>
+    </div>
+
+    <div class="type-card" onclick="selectType(4,this)">
+      <div class="type-badge badge-perfect">Perfectly Inelastic</div>
+      <div class="type-es" style="color:#444">Es = 0</div>
+      <h3 style="font-size:16px">Perfectly Inelastic Supply</h3>
+      <p style="font-size:13px;margin:0">No change in Qs regardless of price. Vertical line parallel to Y-axis.</p>
+      <div class="mini-canvas-wrap" id="mini-4"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ────────────────── 3D DIAGRAMS ────────────────── -->
+<section id="diagrams">
+<div class="container">
+  <div class="section-label">04 — 3D Visualisation</div>
+  <h2>Interactive 3D Supply Curve Diagrams</h2>
+  <p>The interactive diagram below changes based on the type you select above. Drag to rotate, scroll to zoom.</p>
+
+  <div class="canvas-card" style="height:420px" id="main-3d-wrap">
+    <div class="canvas-label" id="main-canvas-label">3D · Relatively Elastic Supply (Es &gt; 1)</div>
+    <div class="canvas-hint">drag · scroll · rotate</div>
+  </div>
+
+  <h3 style="margin-top:40px">All Five Types — Side by Side (3D)</h3>
+  <div class="canvas-card" style="height:380px" id="all-types-wrap">
+    <div class="canvas-label">3D · All Five Types of Elasticity of Supply</div>
+    <div class="canvas-hint">drag to rotate</div>
+  </div>
+</div>
+</section>
+
+<!-- ────────────────── DETERMINANTS ────────────────── -->
+<section id="determinants">
+<div class="container">
+  <div class="section-label">05 — Determinants</div>
+  <h2>Factors Determining Elasticity of Supply</h2>
+
+  <div class="determinants-grid reveal">
+    <div class="det-card">
+      <div class="det-icon">⏱️</div>
+      <div class="det-title">Time Period</div>
+      <p class="det-text">In the market period, supply is perfectly inelastic (fixed). In the short run, it is less elastic. In the long run, supply is more elastic as producers can adjust all inputs. <strong>Longer time = more elastic supply.</strong></p>
+    </div>
+    <div class="det-card">
+      <div class="det-icon">🏭</div>
+      <div class="det-title">Nature of the Commodity</div>
+      <p class="det-text">Agricultural goods (perishable) have inelastic supply — output cannot be changed quickly. Industrial goods have elastic supply because production can be increased rapidly with more inputs.</p>
+    </div>
+    <div class="det-card">
+      <div class="det-icon">💰</div>
+      <div class="det-title">Cost of Production</div>
+      <p class="det-text">If increasing output leads to rapidly rising costs, supply is inelastic. If costs rise slowly with output (constant or decreasing cost industries), supply is more elastic.</p>
+    </div>
+    <div class="det-card">
+      <div class="det-icon">🔄</div>
+      <div class="det-title">Mobility of Factors</div>
+      <p class="det-text">Greater mobility of factors of production (labour, capital) between industries makes supply more elastic, as producers can shift resources in response to price changes.</p>
+    </div>
+    <div class="det-card">
+      <div class="det-icon">📦</div>
+      <div class="det-title">Availability of Stocks</div>
+      <p class="det-text">If a commodity can be stored and stocks are available, supply is more elastic. Goods that cannot be stored (e.g., fresh fish) have inelastic supply.</p>
+    </div>
+    <div class="det-card">
+      <div class="det-icon">🌍</div>
+      <div class="det-title">Technique of Production</div>
+      <p class="det-text">Goods produced with simple techniques respond quickly to price signals (elastic). Goods requiring complex, capital-intensive production have inelastic supply.</p>
+    </div>
+  </div>
+
+  <!-- 3D Determinants visual -->
+  <div class="canvas-card" style="height:360px" id="determinants-3d-wrap">
+    <div class="canvas-label">3D · Time & Elasticity — Market vs Short Run vs Long Run</div>
+    <div class="canvas-hint">drag to rotate</div>
+  </div>
+</div>
+</section>
+
+<!-- ────────────────── CALCULATOR ────────────────── -->
+<section id="calculator">
+<div class="container">
+  <div class="section-label">06 — Calculator</div>
+  <h2>Interactive Elasticity Calculator</h2>
+  <p>Adjust the sliders to compute elasticity of supply and see the result in real time.</p>
+
+  <div class="slider-section reveal">
+    <div class="slider-row">
+      <label>Original Price (P)</label>
+      <input type="range" id="sl-p" min="10" max="200" value="50" oninput="calcEs()">
+      <div class="val-display" id="v-p">₹50</div>
+    </div>
+    <div class="slider-row">
+      <label>New Price (P₁)</label>
+      <input type="range" id="sl-p1" min="10" max="300" value="75" oninput="calcEs()">
+      <div class="val-display" id="v-p1">₹75</div>
+    </div>
+    <div class="slider-row">
+      <label>Original Quantity Supplied (Qs)</label>
+      <input type="range" id="sl-q" min="10" max="500" value="100" oninput="calcEs()">
+      <div class="val-display" id="v-q">100 units</div>
+    </div>
+    <div class="slider-row">
+      <label>New Quantity Supplied (Qs₁)</label>
+      <input type="range" id="sl-q1" min="10" max="700" value="160" oninput="calcEs()">
+      <div class="val-display" id="v-q1">160 units</div>
+    </div>
+
+    <div class="result-banner" id="calc-result">
+      <div>
+        <div class="result-type">ELASTICITY OF SUPPLY</div>
+        <div class="result-es" id="res-es">2.40</div>
+      </div>
+      <div style="flex:1;font-size:12px;line-height:1.8;opacity:0.8" id="res-explain"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ────────────────── PYQs ────────────────── -->
+<section id="pyqs">
+<div class="container">
+  <div class="section-label">07 — Previous Year Questions</div>
+  <h2>Toughest PYQs — ISC 2015–2024</h2>
+  <p>These are the most challenging and frequently repeated questions. Click to reveal model answers.</p>
+
+  <div class="pyq-grid" id="pyq-container"></div>
+</div>
+</section>
+
+<!-- ────────────────── QUIZ ────────────────── -->
+<section id="quiz">
+<div class="container">
+  <div class="section-label">08 — Self Test</div>
+  <h2>Test Your Understanding</h2>
+  <p>Answer all questions. Immediate feedback with explanations after each answer.</p>
+
+  <div class="quiz-wrap" id="quiz-container"></div>
+</div>
+</section>
+
+<footer>
+  ISC Class XII Economics · Elasticity of Supply · All content aligned to CISCE syllabus
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════ SCRIPTS ══════════════════════════════════════════════════ -->
+<script>
+// ── Nav scroll ──
+function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+// ── Reveal on scroll ──
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:0.1});
+revealEls.forEach(el=>io.observe(el));
+
+// ── Sticky nav active ──
+const sections = ['definition','formula','types','diagrams','determinants','calculator','pyqs','quiz'];
+const navBtns = document.querySelectorAll('.nav-btn');
+const sio = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx = sections.indexOf(e.target.id);
+      navBtns.forEach((b,i)=>b.classList.toggle('active',i===idx));
+    }
+  });
+},{rootMargin:'-40% 0px -55% 0px'});
+sections.forEach(id=>{const el=document.getElementById(id);if(el)sio.observe(el)});
+
+// ══════════════════ THREE.JS SCENES ══════════════════
+
+function makeRenderer(container, w, h){
+  const r = new THREE.WebGLRenderer({antialias:true,alpha:false});
+  r.setPixelRatio(Math.min(devicePixelRatio,2));
+  r.setSize(w,h);
+  r.shadowMap.enabled=true;
+  container.appendChild(r.domElement);
+  return r;
+}
+
+function makeScene(){
+  const s=new THREE.Scene();
+  s.background=new THREE.Color(0x0a0a0f);
+  s.add(new THREE.AmbientLight(0xffffff,0.5));
+  const d=new THREE.DirectionalLight(0xffffff,0.8);
+  d.position.set(10,15,10);s.add(d);
+  const p=new THREE.PointLight(0xf0b93a,1,30);
+  p.position.set(-5,8,5);s.add(p);
+  return s;
+}
+
+function makeCamera(w,h,z=12){
+  const c=new THREE.PerspectiveCamera(55,w/h,0.1,500);
+  c.position.set(8,6,z);
+  c.lookAt(0,0,0);
+  return c;
+}
+
+function addAxes(scene,len=5){
+  const mat=(c)=>new THREE.MeshPhongMaterial({color:c});
+  // X axis (quantity)
+  const xg=new THREE.CylinderGeometry(0.04,0.04,len,8);
+  const xm=new THREE.Mesh(xg,mat(0x52b788));
+  xm.rotation.z=Math.PI/2;xm.position.x=len/2;scene.add(xm);
+  // Y axis (price)
+  const yg=new THREE.CylinderGeometry(0.04,0.04,len,8);
+  const ym=new THREE.Mesh(yg,mat(0xf0b93a));
+  ym.position.y=len/2;scene.add(ym);
+  // Z axis
+  const zg=new THREE.CylinderGeometry(0.03,0.03,len,8);
+  const zm=new THREE.Mesh(zg,mat(0x4a90d9));
+  zm.rotation.x=Math.PI/2;zm.position.z=-len/2;scene.add(zm);
+  // Labels as sprites
+  function makeLabel(text,color){
+    const c=document.createElement('canvas');c.width=128;c.height=64;
+    const ctx=c.getContext('2d');
+    ctx.fillStyle=color;ctx.font='bold 28px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(text,64,32);
+    const t=new THREE.CanvasTexture(c);
+    const m=new THREE.SpriteMaterial({map:t,transparent:true});
+    return new THREE.Sprite(m);
+  }
+  const lq=makeLabel('Quantity →','#52b788');lq.position.set(len+0.5,0,0);lq.scale.set(2,1,1);scene.add(lq);
+  const lp=makeLabel('Price ↑','#f0b93a');lp.position.set(0,len+0.5,0);lp.scale.set(1.5,0.75,1);scene.add(lp);
+}
+
+function makeCurvePoints(type){
+  // type: 0=elastic,1=inelastic,2=unit,3=perfElastic,4=perfInelastic
+  const pts=[];
+  if(type===3){// horizontal — perfectly elastic
+    for(let x=0;x<=6;x+=0.2) pts.push(new THREE.Vector3(x,3,0));
+  } else if(type===4){// vertical — perfectly inelastic
+    for(let y=0;y<=6;y+=0.2) pts.push(new THREE.Vector3(3,y,0));
+  } else if(type===0){// elastic: steep slope, crosses Y above origin
+    for(let x=0;x<=5;x+=0.2) pts.push(new THREE.Vector3(x,1.5+x*0.8,0));
+  } else if(type===1){// inelastic: shallow slope, crosses X axis
+    for(let x=0.8;x<=6;x+=0.2) pts.push(new THREE.Vector3(x,(x-0.8)*0.5,0));
+  } else {// unit: through origin, 45°
+    for(let x=0;x<=5;x+=0.2) pts.push(new THREE.Vector3(x,x,0));
+  }
+  return pts;
+}
+
+function drawCurve(scene,type,color,zOff=0){
+  const pts=makeCurvePoints(type);
+  const curve=new THREE.CatmullRomCurve3(pts.map(p=>new THREE.Vector3(p.x,p.y,zOff)));
+  const geo=new THREE.TubeGeometry(curve,64,0.06,8,false);
+  const mat=new THREE.MeshPhongMaterial({color,shininess:80});
+  const mesh=new THREE.Mesh(geo,mat);
+  scene.add(mesh);
+  return mesh;
+}
+
+function addDragControl(renderer,camera,spherical,callback){
+  let drag=false,prev={x:0,y:0};
+  const el=renderer.domElement;
+  el.addEventListener('mousedown',e=>{drag=true;prev={x:e.clientX,y:e.clientY}});
+  window.addEventListener('mouseup',()=>drag=false);
+  window.addEventListener('mousemove',e=>{
+    if(!drag)return;
+    spherical.theta-=(e.clientX-prev.x)*0.01;
+    spherical.phi=Math.max(0.3,Math.min(Math.PI-0.3,spherical.phi+(e.clientY-prev.y)*0.01));
+    prev={x:e.clientX,y:e.clientY};callback();
+  });
+  el.addEventListener('wheel',e=>{
+    spherical.r=Math.max(6,Math.min(30,spherical.r+e.deltaY*0.03));
+    callback();e.preventDefault();
+  },{passive:false});
+  // touch
+  let lt=null;
+  el.addEventListener('touchstart',e=>{lt=e.touches[0]});
+  el.addEventListener('touchmove',e=>{
+    if(!lt)return;
+    spherical.theta-=(e.touches[0].clientX-lt.clientX)*0.015;
+    spherical.phi=Math.max(0.3,Math.min(Math.PI-0.3,spherical.phi+(e.touches[0].clientY-lt.clientY)*0.015));
+    lt=e.touches[0];callback();e.preventDefault();
+  },{passive:false});
+}
+
+function updateCam(camera,sp){
+  camera.position.set(
+    sp.r*Math.sin(sp.phi)*Math.sin(sp.theta),
+    sp.r*Math.cos(sp.phi),
+    sp.r*Math.sin(sp.phi)*Math.cos(sp.theta)
+  );
+  camera.lookAt(2.5,2.5,0);
+}
+
+// ── HERO CANVAS (hero section) ──
+(function(){
+  const wrap=document.getElementById('hero-canvas-wrap');
+  const W=wrap.clientWidth,H=340;
+  const s=makeScene();const r=makeRenderer(wrap,W,H);
+  const c=makeCamera(W,H,14);
+  addAxes(s,6);
+  // Draw all 5 curves
+  const colors=[0x52b788,0xe74c3c,0x4a90d9,0xf0b93a,0xaaaaaa];
+  const zoffs=[-2,-1,0,1,2];
+  colors.forEach((col,i)=>drawCurve(s,i,col,zoffs[i]));
+  const sp={theta:0.8,phi:1.1,r:15};
+  updateCam(c,sp);
+  addDragControl(r,c,sp,()=>updateCam(c,sp));
+  function anim(){requestAnimationFrame(anim);r.render(s,c)}anim();
+  window.addEventListener('resize',()=>{
+    const nw=wrap.clientWidth;
+    c.aspect=nw/H;c.updateProjectionMatrix();r.setSize(nw,H);
+  });
+})();
+
+// ── MINI CANVASES (type cards) ──
+const typeColors=[0x52b788,0xe74c3c,0x4a90d9,0xdddddd,0x888888];
+const typeLabels=['Es > 1 (Elastic)','Es < 1 (Inelastic)','Es = 1 (Unit)','Es = ∞ (Perf. Elastic)','Es = 0 (Perf. Inelastic)'];
+const miniRenderers=[];
+for(let i=0;i<5;i++){
+  (function(idx){
+    const wrap=document.getElementById('mini-'+idx);
+    const W=wrap.clientWidth||260,H=120;
+    const s=makeScene();const r=makeRenderer(wrap,W,H);
+    const c=makeCamera(W,H,10);c.position.set(5,4,10);c.lookAt(2.5,2,0);
+    addAxes(s,5);
+    drawCurve(s,idx,typeColors[idx]);
+    miniRenderers.push({r,s,c});
+    function anim(){requestAnimationFrame(anim);r.render(s,c)}anim();
+  })(i);
+}
+
+// ── MAIN 3D (selected type) ──
+let mainScene=null,mainRenderer=null,mainCamera=null,mainCurve=null;
+const mainSp={theta:0.8,phi:1.0,r:14};
+
+(function(){
+  const wrap=document.getElementById('main-3d-wrap');
+  const W=wrap.clientWidth,H=420;
+  mainScene=makeScene();
+  mainRenderer=makeRenderer(wrap,W,H);
+  mainCamera=makeCamera(W,H,14);
+  updateCam(mainCamera,mainSp);
+  addAxes(mainScene,6);
+  // Add price/quantity markers
+  function addMarker(pos,color){
+    const g=new THREE.SphereGeometry(0.12,16,16);
+    const m=new THREE.MeshPhongMaterial({color,emissive:color,emissiveIntensity:0.3});
+    const mesh=new THREE.Mesh(g,m);
+    mesh.position.copy(pos);
+    mainScene.add(mesh);
+  }
+  mainCurve=drawCurve(mainScene,0,typeColors[0]);
+  addDragControl(mainRenderer,mainCamera,mainSp,()=>updateCam(mainCamera,mainSp));
+  function anim(){requestAnimationFrame(anim);mainRenderer.render(mainScene,mainCamera)}anim();
+  window.addEventListener('resize',()=>{
+    const nw=wrap.clientWidth;
+    mainCamera.aspect=nw/H;mainCamera.updateProjectionMatrix();mainRenderer.setSize(nw,H);
+  });
+})();
+
+function selectType(idx,el){
+  document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  // remove old curve
+  if(mainCurve)mainScene.remove(mainCurve);
+  mainCurve=drawCurve(mainScene,idx,typeColors[idx]);
+  document.getElementById('main-canvas-label').textContent='3D · '+typeLabels[idx];
+}
+
+// ── ALL TYPES SCENE ──
+(function(){
+  const wrap=document.getElementById('all-types-wrap');
+  const W=wrap.clientWidth,H=380;
+  const s=makeScene();const r=makeRenderer(wrap,W,H);
+  const c=makeCamera(W,H,18);
+  const sp={theta:0.7,phi:0.9,r:18};
+  updateCam(c,sp);c.lookAt(2.5,2.5,0);
+  addAxes(s,7);
+  const zoffs=[-3,-1.5,0,1.5,3];
+  typeColors.forEach((col,i)=>drawCurve(s,i,col,zoffs[i]));
+  // Floating labels
+  function spriteLabel(text,pos){
+    const cv=document.createElement('canvas');cv.width=256;cv.height=64;
+    const ctx=cv.getContext('2d');
+    ctx.fillStyle='rgba(240,185,58,0.9)';ctx.font='bold 22px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(text,128,32);
+    const t=new THREE.CanvasTexture(cv);
+    const sp2=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true}));
+    sp2.position.set(pos.x,pos.y,pos.z);sp2.scale.set(2.5,0.6,1);s.add(sp2);
+  }
+  spriteLabel('Es>1'   ,{x:6.5,y:6.5,z:-3});
+  spriteLabel('Es<1'   ,{x:7,y:2,z:-1.5});
+  spriteLabel('Es=1'   ,{x:6,y:5.5,z:0});
+  spriteLabel('Es=∞'   ,{x:7,y:3,z:1.5});
+  spriteLabel('Es=0'   ,{x:4,y:7,z:3});
+
+  addDragControl(r,c,sp,()=>{
+    c.position.set(sp.r*Math.sin(sp.phi)*Math.sin(sp.theta),sp.r*Math.cos(sp.phi),sp.r*Math.sin(sp.phi)*Math.cos(sp.theta));
+    c.lookAt(2.5,2.5,0);
+  });
+  function anim(){requestAnimationFrame(anim);r.render(s,c)}anim();
+  window.addEventListener('resize',()=>{
+    const nw=wrap.clientWidth;c.aspect=nw/H;c.updateProjectionMatrix();r.setSize(nw,H);
+  });
+})();
+
+// ── DETERMINANTS 3D (time periods) ──
+(function(){
+  const wrap=document.getElementById('determinants-3d-wrap');
+  const W=wrap.clientWidth,H=360;
+  const s=makeScene();const r=makeRenderer(wrap,W,H);
+  const c=new THREE.PerspectiveCamera(50,W/H,0.1,200);
+  c.position.set(10,8,14);c.lookAt(3,2,0);
+  s.add(new THREE.AmbientLight(0xffffff,0.5));
+  const dl=new THREE.DirectionalLight(0xffffff,0.9);dl.position.set(10,20,10);s.add(dl);
+
+  // Add axes
+  addAxes(s,7);
+
+  // Market period — vertical (Es=0)
+  drawCurve(s,4,0xaaaaaa,-3);
+  // Short run — inelastic
+  drawCurve(s,1,0xe74c3c,0);
+  // Long run — elastic
+  drawCurve(s,0,0x52b788,3);
+
+  function label(text,pos){
+    const cv=document.createElement('canvas');cv.width=300;cv.height=72;
+    const ctx=cv.getContext('2d');
+    ctx.fillStyle='rgba(250,247,240,0.9)';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(text,150,36);
+    const t=new THREE.CanvasTexture(cv);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true}));
+    sp.position.set(pos.x,pos.y,pos.z);sp.scale.set(3,0.75,1);s.add(sp);
+  }
+  label('Market Period (Es=0)',{x:4,y:7.2,z:-3});
+  label('Short Run (Es<1)',{x:7,y:2.5,z:0});
+  label('Long Run (Es>1)',{x:7,y:6.5,z:3});
+
+  const sp={theta:0.8,phi:0.9,r:16};
+  updateCam(c,sp);c.lookAt(3,3,0);
+  addDragControl(r,c,sp,()=>{
+    c.position.set(sp.r*Math.sin(sp.phi)*Math.sin(sp.theta),sp.r*Math.cos(sp.phi),sp.r*Math.sin(sp.phi)*Math.cos(sp.theta));
+    c.lookAt(3,3,0);
+  });
+  function anim(){requestAnimationFrame(anim);r.render(s,c)}anim();
+  window.addEventListener('resize',()=>{
+    const nw=wrap.clientWidth;c.aspect=nw/H;c.updateProjectionMatrix();r.setSize(nw,H);
+  });
+})();
+
+// ── CALCULATOR ──
+function calcEs(){
+  const P=+document.getElementById('sl-p').value;
+  const P1=+document.getElementById('sl-p1').value;
+  const Q=+document.getElementById('sl-q').value;
+  const Q1=+document.getElementById('sl-q1').value;
+  document.getElementById('v-p').textContent='₹'+P;
+  document.getElementById('v-p1').textContent='₹'+P1;
+  document.getElementById('v-q').textContent=Q+' units';
+  document.getElementById('v-q1').textContent=Q1+' units';
+  const dQ=Q1-Q,dP=P1-P;
+  if(dP===0){document.getElementById('res-es').textContent='∞';document.getElementById('res-explain').textContent='Price unchanged → Perfectly Elastic';return}
+  const es=((dQ/Q)/(dP/P));
+  const esAbs=Math.abs(es);
+  document.getElementById('res-es').textContent=esAbs.toFixed(2);
+  let type='',colour='';
+  if(esAbs>1){type='RELATIVELY ELASTIC SUPPLY — %ΔQs > %ΔP';colour='#52b788'}
+  else if(esAbs<1){type='RELATIVELY INELASTIC SUPPLY — %ΔQs < %ΔP';colour='#e74c3c'}
+  else{type='UNITARY ELASTIC SUPPLY — %ΔQs = %ΔP';colour='#4a90d9'}
+  document.getElementById('res-explain').innerHTML=
+    `%ΔQs = <strong style="color:#f0b93a">${((dQ/Q)*100).toFixed(1)}%</strong> &nbsp;|&nbsp; %ΔP = <strong style="color:#f0b93a">${((dP/P)*100).toFixed(1)}%</strong><br><span style="color:${colour}">${type}</span>`;
+}
+calcEs();
+
+// ── PYQs DATA ──
+const pyqs=[
+  {
+    year:'ISC 2023',marks:'6 Marks',
+    q:'Distinguish between perfectly elastic supply and perfectly inelastic supply. Give one real-world example of each. Draw labelled diagrams.',
+    steps:[
+      {n:'1',t:'Perfectly Elastic Supply (Es = ∞)',c:'A <strong>perfectly elastic</strong> supply curve is a horizontal straight line parallel to the X-axis (quantity axis). At the given price, producers are willing to supply <em>any amount</em>. Even an infinitesimally small rise in price causes quantity supplied to become infinite, while any fall results in zero supply. Example: <strong>Photocopies of a document</strong> — at ₹1 per copy, any number can be supplied with the same effort.'},
+      {n:'2',t:'Perfectly Inelastic Supply (Es = 0)',c:'A <strong>perfectly inelastic</strong> supply curve is a vertical straight line parallel to the Y-axis (price axis). Regardless of how much price rises or falls, <em>quantity supplied remains fixed</em>. Example: <strong>Land in a city</strong> — the total area of land in Mumbai is fixed; a rise in price cannot create more land.'},
+      {n:'3',t:'Key Difference Table',c:'<em>Es = ∞</em> → horizontal curve, infinite responsiveness | <em>Es = 0</em> → vertical curve, zero responsiveness | <em>Curve position</em>: perfectly elastic is parallel to X-axis; perfectly inelastic is parallel to Y-axis.'},
+      {n:'4',t:'Diagram note',c:'In your diagram: label the X-axis as "Quantity Supplied", Y-axis as "Price". Draw a horizontal line at price P₀ (label "S: Es=∞") and a vertical line at quantity Q₀ (label "S: Es=0").'}
+    ]
+  },
+  {
+    year:'ISC 2022',marks:'4 Marks',
+    q:'"A straight line supply curve passing through the origin always has unitary elasticity of supply." Explain with the help of a diagram and proof.',
+    steps:[
+      {n:'1',t:'Statement',c:'This is a <strong>true and important theorem</strong>. For ANY straight-line supply curve that passes through the origin, the elasticity of supply equals exactly 1, regardless of the slope of the line.'},
+      {n:'2',t:'Geometric Proof',c:'Using the geometric method: <em>Es = Lower segment / Upper segment</em>. When the curve passes through the origin, the lower segment (from origin to the point on X-axis) equals the upper segment (from origin to the point on Y-axis intercept extended). Hence <em>Es = Lower / Upper = equal lengths → Es = 1</em>.'},
+      {n:'3',t:'Algebraic Proof',c:'If the supply function is Qs = aP (a straight line through origin, no intercept), then ΔQs/ΔP = a. Therefore <em>Es = (ΔQs/ΔP) × (P/Qs) = a × (P/aP) = 1</em>. This holds for any value of slope a.'},
+      {n:'4',t:'Implication',c:'This means a steep line through origin and a flat line through origin both give Es = 1. The position (through origin, above origin, or cutting X-axis) matters more than the slope for determining whether Es is greater than, equal to, or less than 1.'}
+    ]
+  },
+  {
+    year:'ISC 2021',marks:'6 Marks',
+    q:'The price of a commodity rises from ₹10 to ₹15. As a result, quantity supplied increases from 200 units to 350 units. Calculate the elasticity of supply. Is supply elastic or inelastic? Give reasons.',
+    steps:[
+      {n:'1',t:'Given Data',c:'Original Price <em>P = ₹10</em> | New Price <em>P₁ = ₹15</em> → ΔP = ₹5 | Original Quantity <em>Qs = 200</em> | New Quantity <em>Qs₁ = 350</em> → ΔQs = 150 units'},
+      {n:'2',t:'Formula Application',c:'<em>Es = (ΔQs/Qs) ÷ (ΔP/P) = (150/200) ÷ (5/10) = 0.75 ÷ 0.5</em>'},
+      {n:'3',t:'Result',c:'<strong>Es = 1.5</strong>'},
+      {n:'4',t:'Conclusion',c:'Since Es = 1.5 > 1, the supply is <strong>relatively elastic</strong>. The percentage change in quantity supplied (75%) is greater than the percentage change in price (50%). This means producers are highly responsive to the price change and increase supply more than proportionately.'}
+    ]
+  },
+  {
+    year:'ISC 2020',marks:'5 Marks',
+    q:'Explain how the "time period" is the most important determinant of elasticity of supply. Distinguish between market period, short run, and long run supply.',
+    steps:[
+      {n:'1',t:'Why Time is Most Important',c:'Time is the <strong>most fundamental determinant</strong> of supply elasticity because all other determinants (hiring workers, expanding capacity, growing more crops) are ultimately constrained by time. Given enough time, supply can adjust to almost any price change.'},
+      {n:'2',t:'Market Period (Momentary Period)',c:'The time period is <em>so short</em> that producers cannot change output at all. Supply is <strong>perfectly inelastic (Es = 0)</strong>. Example: Fish caught today — the quantity is fixed. The supply curve is vertical. Price may rise dramatically with no increase in quantity.'},
+      {n:'3',t:'Short Run',c:'Some factors can be varied (labour, raw materials) but capital is fixed. Supply is <strong>relatively inelastic (Es < 1)</strong>. Producers can increase output somewhat (e.g., overtime shifts) but not fully respond to the price rise. Supply curve slopes steeply.'},
+      {n:'4',t:'Long Run',c:'All factors of production can be changed — new factories built, new workers trained, new agricultural land cultivated. Supply is <strong>relatively elastic (Es > 1)</strong>. Producers can fully respond to price changes. Supply curve is flatter.'}
+    ]
+  },
+  {
+    year:'ISC 2019',marks:'4 Marks',
+    q:'The supply schedule of a commodity is given. Calculate elasticity of supply when price rises from ₹8 to ₹12 and quantity supplied rises from 400 to 560 units. Also state whether the supply curve will cut the X-axis or Y-axis.',
+    steps:[
+      {n:'1',t:'Calculation',c:'ΔP = 12 − 8 = <em>₹4</em> | ΔQs = 560 − 400 = <em>160 units</em> | %ΔP = (4/8)×100 = <em>50%</em> | %ΔQs = (160/400)×100 = <em>40%</em>'},
+      {n:'2',t:'Es Formula',c:'<em>Es = 40% ÷ 50% = 0.8</em>'},
+      {n:'3',t:'Result & Interpretation',c:'Since Es = 0.8 < 1, supply is <strong>relatively inelastic</strong>. % change in quantity (40%) < % change in price (50%).'},
+      {n:'4',t:'Curve Position',c:'Since Es < 1, the supply curve will <strong>cut the X-axis</strong> (quantity axis) to the right of the origin — not the Y-axis. A supply curve cutting the X-axis always has Es < 1. This is a key geometric rule for ISC.'}
+    ]
+  },
+  {
+    year:'ISC 2018',marks:'5 Marks',
+    q:'What is meant by elasticity of supply? How does the availability of means of production affect the elasticity of supply? Explain with an example.',
+    steps:[
+      {n:'1',t:'Definition',c:'<strong>Elasticity of supply</strong> measures the degree of responsiveness of quantity supplied to changes in the price of the commodity. Mathematically: <em>Es = (%ΔQs) / (%ΔP)</em>. It is always positive due to the law of supply.'},
+      {n:'2',t:'Availability of Factors of Production',c:'If factors of production (land, labour, capital, enterprise) are <strong>easily available and mobile</strong>, producers can expand output quickly in response to rising prices. This makes supply more elastic.'},
+      {n:'3',t:'Example — Elastic Case',c:'Cotton textiles: Labour, looms, and raw cotton are widely available. When price rises, mills can quickly hire more labour and run extra shifts. Supply is <strong>elastic</strong>.'},
+      {n:'4',t:'Example — Inelastic Case',c:'Hydroelectric power: Requires specific geographical locations, massive capital, and years of construction. Even if electricity prices double, new plants cannot be set up quickly. Supply is <strong>inelastic</strong>. The scarcer and less mobile the inputs, the more inelastic the supply.'}
+    ]
+  },
+  {
+    year:'ISC 2017',marks:'3 Marks',
+    q:'Using the geometric method, show that a supply curve cutting the Y-axis above origin has elasticity greater than one.',
+    steps:[
+      {n:'1',t:'Setup',c:'Consider a straight-line supply curve that meets the Y-axis (price axis) <em>above the origin</em>. Let the curve intersect the Y-axis at point A (above origin) and pass through point B on the curve.'},
+      {n:'2',t:'Geometric Method Formula',c:'<em>Es = Lower Segment / Upper Segment</em>, where these are measured from the point of tangency to the intercepts on price and quantity axes extended.'},
+      {n:'3',t:'Proof',c:'When the supply curve cuts the Y-axis above the origin: if extended to the X-axis, the lower segment (below the point, toward X-axis) is <em>longer</em> than the upper segment (above the point, toward Y-axis intercept). Therefore <em>Lower Segment > Upper Segment → Es > 1</em>.'},
+      {n:'4',t:'Intuition',c:'Geometrically: the more "room" the curve has below the tangent point before hitting the X-axis, the more elastic it is. A curve hugging the Y-axis (above origin) leaves a large lower segment, confirming <strong>Es > 1 (elastic supply)</strong>.'}
+    ]
+  },
+  {
+    year:'ISC 2016',marks:'4 Marks',
+    q:'The price of tomatoes rises from ₹20 to ₹30 per kg. The quantity supplied increases from 1000 kg to 1300 kg per day. Calculate Es. Comment on whether this is typical for agricultural goods.',
+    steps:[
+      {n:'1',t:'Calculation',c:'ΔP = ₹10 | ΔQs = 300 kg | %ΔP = (10/20)×100 = <em>50%</em> | %ΔQs = (300/1000)×100 = <em>30%</em>'},
+      {n:'2',t:'Result',c:'<em>Es = 30/50 = 0.6</em> → Supply is <strong>relatively inelastic (Es < 1)</strong>'},
+      {n:'3',t:'Comment on Agricultural Goods',c:'This result is <strong>typical for agricultural goods</strong>. The supply of farm produce is generally inelastic in the short run because: (a) crops take a full season to grow — farmers cannot instantly increase output, (b) land is fixed in the short run, (c) climate and weather are uncontrollable factors.'},
+      {n:'4',t:'Policy Implication',c:'Inelastic supply of essential agricultural goods means price rises lead to little increase in output. This can cause <strong>food price inflation</strong>, which is why governments often intervene with Minimum Support Prices (MSP) and public distribution systems.'}
+    ]
+  }
+];
+
+const pyqContainer=document.getElementById('pyq-container');
+pyqs.forEach((q,i)=>{
+  const card=document.createElement('div');card.className='pyq-card reveal';
+  card.innerHTML=`
+    <div class="pyq-header" onclick="togglePYQ(${i})">
+      <div class="pyq-meta">
+        <span class="pyq-year">${q.year}</span>
+        <span class="pyq-marks">${q.marks}</span>
+      </div>
+      <div class="pyq-q">${q.q}</div>
+      <span class="pyq-toggle" id="ptog-${i}">▸ Show Answer</span>
+    </div>
+    <div class="pyq-body" id="pbody-${i}">
+      <div class="pyq-answer">
+        ${q.steps.map(s=>`
+          <div class="answer-step">
+            <div class="step-num">${s.n}</div>
+            <div><strong>${s.t}:</strong> ${s.c}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  pyqContainer.appendChild(card);
+  io.observe(card);
+});
+
+function togglePYQ(i){
+  const body=document.getElementById('pbody-'+i);
+  const tog=document.getElementById('ptog-'+i);
+  const open=body.classList.toggle('open');
+  tog.textContent=open?'▾ Hide Answer':'▸ Show Answer';
+}
+
+// ── QUIZ ──
+const quizData=[
+  {q:'When a supply curve is a horizontal straight line parallel to the X-axis, the elasticity of supply is:',opts:['Es = 0','Es = 1','Es > 1','Es = ∞'],ans:3,exp:'A perfectly horizontal supply curve means suppliers will supply any quantity at a single price. Even the smallest price rise leads to infinite quantity supplied, making Es = ∞ (perfectly elastic).'},
+  {q:'A straight-line supply curve passing through the origin will always have:',opts:['Es = 0','Es = 1','Es > 1','Es < 1'],ans:1,exp:'Any straight line through the origin gives Es = 1 (unitary elastic), regardless of the slope. This is proven both geometrically (lower = upper segment) and algebraically (Qs = aP → Es = 1).'},
+  {q:'The supply of land in Mumbai is an example of:',opts:['Relatively Elastic Supply','Perfectly Elastic Supply','Perfectly Inelastic Supply','Relatively Inelastic Supply'],ans:2,exp:'Land supply in a city is fixed — no amount of price increase can create more land. This is a classic example of perfectly inelastic supply (Es = 0), represented by a vertical supply curve.'},
+  {q:'If price rises from ₹10 to ₹12, and quantity supplied rises from 100 to 140 units, the value of Es is:',opts:['1.5','2.0','1.2','0.8'],ans:1,exp:'%ΔQs = (40/100)×100 = 40%. %ΔP = (2/10)×100 = 20%. Es = 40/20 = 2.0. Supply is relatively elastic.'},
+  {q:'In the market (momentary) period, supply is:',opts:['Perfectly elastic','Relatively elastic','Perfectly inelastic','Unitary elastic'],ans:2,exp:'In the market period, the time period is so short that producers cannot change output at all. Supply is perfectly inelastic (Es = 0). The supply curve is vertical.'},
+  {q:'A supply curve that cuts the X-axis (quantity axis) to the right of origin has:',opts:['Es > 1','Es = 1','Es < 1','Es = 0'],ans:2,exp:'When a supply curve cuts the X-axis to the right of origin, the geometric method shows that the lower segment < upper segment. Therefore Es < 1 (relatively inelastic supply).'},
+  {q:'Which of the following will make supply more elastic?',opts:['Shorter time period','Perishable goods','Better storage facilities','Scarce factors of production'],ans:2,exp:'Better storage facilities allow producers to maintain stocks and respond to price changes by releasing stored goods. This increases supply responsiveness and makes supply more elastic.'},
+  {q:'If Es = 0.5, a 20% rise in price will lead to a rise in quantity supplied of:',opts:['40%','10%','20%','2.5%'],ans:1,exp:'Es = %ΔQs / %ΔP → 0.5 = %ΔQs / 20 → %ΔQs = 0.5 × 20 = 10%. A 20% price rise leads to only 10% rise in quantity supplied (inelastic).'},
+];
+
+let currentQ=0,score=0,answered=false;
+const qc=document.getElementById('quiz-container');
+
+function renderQuiz(){
+  if(currentQ>=quizData.length){
+    qc.innerHTML=`<div style="text-align:center;padding:48px 0">
+      <div style="font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--amber);">${score}/${quizData.length}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:3px;margin:8px 0 24px;color:var(--muted)">FINAL SCORE</div>
+      <div style="font-size:15px;margin-bottom:32px">${score>=6?'Excellent! You have mastered elasticity of supply.':score>=4?'Good effort. Review the PYQs above for weak areas.':'Keep practicing — re-read the theory sections.'}</div>
+      <button class="quiz-next show" onclick="currentQ=0;score=0;renderQuiz()">↺ Restart Quiz</button>
+    </div>`;return;
+  }
+  const d=quizData[currentQ];answered=false;
+  qc.innerHTML=`
+    <div class="quiz-progress">Question ${currentQ+1} of ${quizData.length} &nbsp;·&nbsp; Score: ${score}</div>
+    <div class="quiz-q">${d.q}</div>
+    <div class="quiz-options">
+      ${d.opts.map((o,i)=>`<button class="quiz-opt" onclick="answerQ(${i})">${String.fromCharCode(65+i)}. &nbsp;${o}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="qfb"></div>
+    <button class="quiz-next" id="qnext" onclick="currentQ++;renderQuiz()">Next Question →</button>
+  `;
+}
+
+function answerQ(idx){
+  if(answered)return;answered=true;
+  const d=quizData[currentQ];
+  const opts=document.querySelectorAll('.quiz-opt');
+  opts.forEach((o,i)=>{
+    o.disabled=true;
+    if(i===d.ans)o.classList.add('correct');
+    else if(i===idx)o.classList.add('wrong');
+  });
+  const fb=document.getElementById('qfb');
+  if(idx===d.ans){score++;fb.className='quiz-feedback ok show';fb.textContent='✓ Correct! '+d.exp}
+  else{fb.className='quiz-feedback no show';fb.textContent='✗ Incorrect. '+d.exp}
+  document.getElementById('qnext').classList.add('show');
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
